@@ -8,21 +8,25 @@ export default function lsCommand(currentWorkDirectory) {
             log(`Error reading directory: ${err.message}`);
             return;
         }
-        files.forEach((file) => {
-            stat(`${currentWorkDirectory}/${file}`, (err, stats) => {
-                if (err) {
-                    log(`Error file: ${err.message}`);
-                }
-                else {
-                    tableData.push({ Name: file, Type: stats.isFile() ? 'file' : 'directory' });
-                    if (tableData.length == files.length) {
-                        table(tableData)
+        if (files.length > 0) {
+            files.forEach((file) => {
+                stat(`${currentWorkDirectory}/${file}`, (err, stats) => {
+                    if (err) {
+                        log(`Error file: ${err.message}`);
+                        return
                     }
-                }
+                    else {
+                        tableData.push({ Name: file, Type: stats.isFile() ? 'file' : 'directory' });
+                        if (tableData.length == files.length) {
+                            table(tableData)
+                        }
+                    }
+
+                })
 
             })
+        }
 
-        })
 
 
     });
