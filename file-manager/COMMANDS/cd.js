@@ -8,13 +8,14 @@ export default function cdCommand(targetPath, currentWorkDirectory) {
             if (/^[a-zA-Z]:$/.test(targetPath)) {
                 targetPath += '\\';
             }
-            chdir(path.resolve(targetPath));
+            chdir(path.resolve(currentWorkDirectory,targetPath));
             currentWorkDirectory = cwd();
             log(`You are currently in ${currentWorkDirectory}`);
+            return currentWorkDirectory
         }
         else {
             log(`Add argument (path) :)`);
-
+            return currentWorkDirectory
         }
     }
     catch(err){
